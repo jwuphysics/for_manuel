@@ -65,14 +65,15 @@ def read_all_data():
     all_files = glob('aat_2015/G*.fits')
     all_files.sort()
 
+    plate_ids = ['G{}'.format(n) for n in np.arange(13, 20, 1)]
+
     # go through each file and add their wavelengths and spectra to 
     # their respective dictionaries
     wavelengths_dict = {}
     spectra_dict = {}
-    for spectral_file in all_files:
-        plate_id = spectral_file[9:12]
+    for plate_id, spectral_file in zip(plate_ids, all_files):
 
-        spectra, header = fits.getdata(spectral_file, header=True)
+        spectra, header = fits.getdata(spectral_file , header=True)
 
         # create array of wavelengths in angstroms and add to dict
         wavelengths = np.arange(header['NAXIS1']) - header['CRPIX1']
